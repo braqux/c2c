@@ -514,5 +514,32 @@
   </script>
   <script src="https://d2v7l2267atlz5.cloudfront.net/044f9a1.js"></script>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+<script type="text/javascript">
+	setInterval(checkLeads, 15000); //Check for leads every 15 seconds
+	function checkLeads() {
+	
+
+		$.getJSON("https://d30xmmta1avvoi.cloudfront.net/public/external/check2.php?testing=0&callback=?", //Hint: change to testing=1 for test leads
+			function (leads) {
+				var completed_leads = leads.length;
+				if (completed_leads) {
+					var offer_ids = [];
+					var earnings_in_cents = 0;
+					$.each(leads, function (key, lead) {
+						offer_ids.push(parseInt(lead.offer_id));
+						earnings_in_cents += parseFloat(lead.points);
+						console.log("Single lead on offer id " + lead.offer_id + " for  $" + (parseFloat(lead.points) / 100).toFixed(2));
+					});
+					console.log("SUMMARY: User has completed " + completed_leads + " leads, for $" + (earnings_in_cents / 100) + " earnings, on offer ids: " + offer_ids.join(","));
+				}
+				else {
+					console.log("No leads were found");
+				}
+			});
+	}
+</script>
+    
 </body>
 </html>
